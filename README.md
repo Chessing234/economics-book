@@ -1,4 +1,4 @@
-# CIE A-Level Economics book
+# CIE A-Level Economics
 
 Open LaTeX source and a compiled PDF for an economics textbook-style manuscript.
 
