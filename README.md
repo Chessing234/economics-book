@@ -1,4 +1,4 @@
-# Economics book
+# CIE A-Level Economics book
 
 Open LaTeX source and a compiled PDF for an economics textbook-style manuscript.
 
@@ -22,7 +22,3 @@ If the build asks for `cover_illustration.png`, add that file next to `ecobook.t
 ## Corrections and feedback
 
 **Please use [GitHub Issues](https://github.com/Chessing234/economics-book/issues)** to report typos, unclear explanations, broken references, or factual corrections. One issue per topic (or per chapter section) makes updates easier to track. Pull requests are welcome if you already have a LaTeX fix.
-
-## License
-
-Add a `LICENSE` file if you want to specify how others may reuse this work.
