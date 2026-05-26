@@ -1,0 +1,18 @@
+# LaTeX aux files
+*.aux
+*.log
+*.out
+*.toc
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.synctex
+
+# Editor / OS junk
+.DS_Store
+*.swp
+
+# Local backup / rollback snapshots (not versioned)
+ecobook.tex.pre-*
+ecobook.tex.bak
+ecobook.tex.backup*
