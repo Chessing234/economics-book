@@ -2,8 +2,6 @@
 
 Open LaTeX source and a compiled PDF for an economics textbook-style manuscript.
 
-**Repository:** [github.com/Chessing234/economics-book](https://github.com/Chessing234/economics-book)
-
 ## Download
 
 - **Latest PDF:** [Releases](https://github.com/Chessing234/economics-book/releases) — each release attaches `ecobook.pdf`.
