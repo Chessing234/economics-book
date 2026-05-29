@@ -507,207 +507,49 @@
 \RaggedRight        % use even word spacing throughout (no full justification)
 \pagestyle{empty}
 
-% ── COVER PAGE ────────────────────────────────────────────
-% Kurzgesagt / "Immune"-flavoured cover.  Pure TikZ, no image asset.
-%
-% Composition (top → bottom):
-%   • thin orange topline + tiny edition strap;
-%   • centred "CIE A LEVEL" eyebrow in orange small caps,
-%     framed by short teal hairlines;
-%   • hero medallion (large teal disc) centred horizontally, packed
-%     with a stylised S/D chart in flat colour;
-%   • playful "confetti" (dots / triangles / rings) scattered around
-%     the medallion;
-%   • giant centred "ECONOMICS" wordmark in white;
-%   • short orange accent rule + italic subtitle + cream byline;
-%   • bottom band with author block, tri-colour publisher rule, and a
-%     small TK publisher medallion.
-\begingroup
-\definecolor{CoverInkDeep}{HTML}{0F1B2C}   % near-black band
-\definecolor{CoverTealDeep}{HTML}{0B5F5E}  % deep teal ring stroke
-\definecolor{CoverCream}{HTML}{F6E9C8}     % warm cream highlights
-\begin{tikzpicture}[remember picture, overlay]
-  \IfFileExists{cover_illustration.png}{%
-    \node[anchor=center] at (current page.center)
-      {\includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{cover_illustration.png}};
-  }{%
-    %--------------------------------------------------------------
-    %  Background: navy field with a darker bottom band
-    %--------------------------------------------------------------
-    \fill[NavyPrimary]  (current page.south west) rectangle (current page.north east);
-    \fill[CoverInkDeep] (current page.south west)
-                        rectangle ([yshift=4.2cm]current page.south east);
-
-    %--------------------------------------------------------------
-    %  Eyebrow: big bold "CIE A LEVEL" between teal hairlines
-    %  (visually the qualifier of the main wordmark below)
-    %--------------------------------------------------------------
-    \draw[MidBlue, line width=2.0pt]
-      ([xshift=-4.8cm, yshift=-2.4cm]current page.north) --
-      ([xshift=-2.4cm, yshift=-2.4cm]current page.north);
-    \draw[MidBlue, line width=2.0pt]
-      ([xshift=2.4cm, yshift=-2.4cm]current page.north) --
-      ([xshift=4.8cm, yshift=-2.4cm]current page.north);
-    \node[anchor=center,
-          font=\sffamily\fontsize{32pt}{32pt}\selectfont\bfseries\color{GoldAccent}]
-      at ([yshift=-2.4cm]current page.north) {CIE A LEVEL};
-
-    %--------------------------------------------------------------
-    %  Hero medallion: large teal disc centred horizontally,
-    %  positioned in the upper third of the page.
-    %--------------------------------------------------------------
-    \coordinate (med) at ([yshift=-9.7cm]current page.north);
-    % Outer halo (very subtle)
-    \fill[MidBlue!18] (med) circle [radius=6.8cm];
-    % Main disc
-    \fill[MidBlue]    (med) circle [radius=6.0cm];
-    \draw[CoverTealDeep, line width=4pt] (med) circle [radius=6.0cm];
-    % Inner dashed ring
-    \draw[CoverCream!85, line width=1.0pt, dashed]
-      (med) circle [radius=5.1cm];
-    % Faint ticks on the inner ring (gives a "scientific" feel)
-    \foreach \a in {0,30,...,330}{
-      \draw[CoverCream!85, line width=0.7pt]
-        ([shift={(med)}] \a:5.1cm) -- ([shift={(med)}] \a:5.35cm);
-    }
-
-    %--------------------------------------------------------------
-    %  Inside the medallion: stylised S / D chart
-    %--------------------------------------------------------------
-    \begin{scope}[shift=(med)]
-      % Axes
-      \draw[CoverCream, line width=1.1pt, -{Latex[length=4pt]}]
-        (-3.6,-2.8) -- (3.8,-2.8);                 % x-axis
-      \draw[CoverCream, line width=1.1pt, -{Latex[length=4pt]}]
-        (-3.6,-2.8) -- (-3.6,3.0);                 % y-axis
-      \node[font=\sffamily\bfseries\tiny, color=CoverCream]
-        at (3.9,-3.05) {Q};
-      \node[font=\sffamily\bfseries\tiny, color=CoverCream]
-        at (-3.95,3.05) {P};
-      % Faint shaded surplus regions (consumer surplus = pale yellow,
-      % producer surplus = pale orange)
-      \fill[RoseGold, opacity=0.22]
-        (-3.6,2.6) -- (0,0) -- (-3.6,0) -- cycle;
-      \fill[GoldAccent, opacity=0.22]
-        (-3.6,-2.8) -- (0,0) -- (-3.6,0) -- cycle;
-      % Supply curve (upward sloping) — vivid orange
-      \draw[GoldAccent, line width=3.0pt, line cap=round]
-        (-3.4,-2.3) .. controls (-1.4,-1.4) and (0.6,0.4) .. (3.0,2.5);
-      % Demand curve (downward sloping) — buttery yellow
-      \draw[RoseGold, line width=3.0pt, line cap=round]
-        (-3.4,2.4) .. controls (-1.4,1.0) and (0.6,-0.5) .. (3.0,-2.3);
-      % Dotted projection guides
-      \draw[CoverCream!85, line width=0.8pt, dotted]
-        (0,0) -- (0,-2.8);
-      \draw[CoverCream!85, line width=0.8pt, dotted]
-        (0,0) -- (-3.6,0);
-      % Equilibrium point — coral with white halo
-      \fill[white]       (0,0) circle [radius=0.32cm];
-      \fill[CurveDanger] (0,0) circle [radius=0.22cm];
-      % Curve end-labels
-      \node[font=\sffamily\bfseries\normalsize, color=GoldAccent]
-        at (3.25,2.85) {S};
-      \node[font=\sffamily\bfseries\normalsize, color=RoseGold]
-        at (3.25,-2.7) {D};
-      % Tick labels at the equilibrium point
-      \node[font=\sffamily\bfseries\tiny, color=CoverCream, anchor=north]
-        at (0,-2.85) {$Q^{\!*}$};
-      \node[font=\sffamily\bfseries\tiny, color=CoverCream, anchor=east]
-        at (-3.65,0)  {$P^{\!*}$};
-    \end{scope}
-
-    %--------------------------------------------------------------
-    %  Confetti: scattered geometric accents around the medallion
-    %--------------------------------------------------------------
-    % Left cluster
-    \fill[GoldAccent]
-      ([xshift=2.0cm, yshift=-5.5cm]current page.north west) circle [radius=0.20cm];
-    \fill[RoseGold]
-      ([xshift=3.4cm, yshift=-7.4cm]current page.north west) circle [radius=0.13cm];
-    \fill[CoverCream]
-      ([xshift=1.6cm, yshift=-8.8cm]current page.north west) circle [radius=0.10cm];
-    \fill[CurveDanger]
-      ([xshift=2.8cm, yshift=-10.6cm]current page.north west) circle [radius=0.11cm];
-    \draw[GoldAccent, line width=1.0pt]
-      ([xshift=1.9cm, yshift=-12.2cm]current page.north west) circle [radius=0.22cm];
-    % Right cluster
-    \fill[RoseGold]
-      ([xshift=-2.0cm, yshift=-5.5cm]current page.north east) circle [radius=0.18cm];
-    \fill[GoldAccent]
-      ([xshift=-3.4cm, yshift=-7.6cm]current page.north east) circle [radius=0.12cm];
-    \fill[MidBlue!60]
-      ([xshift=-1.5cm, yshift=-9.6cm]current page.north east) circle [radius=0.18cm];
-    \fill[CoverCream]
-      ([xshift=-3.0cm, yshift=-11.3cm]current page.north east) circle [radius=0.08cm];
-    \draw[RoseGold, line width=1.0pt]
-      ([xshift=-2.1cm, yshift=-13.0cm]current page.north east) circle [radius=0.20cm];
-    % Triangles
-    \fill[GoldAccent, rotate around={18:([xshift=3.4cm, yshift=-13.6cm]current page.north west)}]
-      ([xshift=3.4cm, yshift=-13.6cm]current page.north west)
-      ++(-0.20,-0.20) -- ++(0.40,0) -- ++(-0.20,0.40) -- cycle;
-    \fill[RoseGold, rotate around={-22:([xshift=-3.8cm, yshift=-6.6cm]current page.north east)}]
-      ([xshift=-3.8cm, yshift=-6.6cm]current page.north east)
-      ++(-0.18,-0.18) -- ++(0.36,0) -- ++(-0.18,0.36) -- cycle;
-
-    %--------------------------------------------------------------
-    %  Main wordmark: gigantic centred "ECONOMICS"
-    %--------------------------------------------------------------
-    \node[anchor=center,
-          font=\sffamily\fontsize{64pt}{64pt}\selectfont\bfseries\color{white}]
-      at ([yshift=7.4cm]current page.south)
-      {ECONOMICS};
-    \draw[GoldAccent, line width=2.6pt]
-      ([xshift=-1.5cm, yshift=6.5cm]current page.south) --
-      ([xshift= 1.5cm, yshift=6.5cm]current page.south);
-    \node[anchor=center,
-          font=\sffamily\Large\itshape\color{RoseGold}]
-      at ([yshift=5.95cm]current page.south)
-      {A clear, illustrated companion};
-    \node[anchor=center,
-          font=\sffamily\normalsize\color{PaleBlue}]
-      at ([yshift=5.3cm]current page.south)
-      {for the Cambridge International Examination};
-
-    %--------------------------------------------------------------
-    %  Author block on the bottom band
-    %--------------------------------------------------------------
-    \node[anchor=center,
-          font=\sffamily\footnotesize\bfseries\color{MidBlue}]
-      at ([yshift=3.05cm]current page.south)
-      {WRITTEN BY};
-    \node[anchor=center,
-          font=\sffamily\LARGE\bfseries\color{white}]
-      at ([yshift=2.25cm]current page.south)
-      {Taksh Kothari};
-
-    %--------------------------------------------------------------
-    %  Tri-colour foot rule (orange + yellow + teal segments)
-    %--------------------------------------------------------------
-    \fill[GoldAccent]
-      ([xshift=-1.6cm, yshift=1.55cm]current page.south)
-      rectangle
-      ([xshift= 0.0cm, yshift=1.60cm]current page.south);
-    \fill[RoseGold]
-      ([xshift= 0.2cm, yshift=1.55cm]current page.south)
-      rectangle
-      ([xshift= 0.7cm, yshift=1.60cm]current page.south);
-    \fill[MidBlue]
-      ([xshift= 0.9cm, yshift=1.55cm]current page.south)
-      rectangle
-      ([xshift= 1.6cm, yshift=1.60cm]current page.south);
-
-    %--------------------------------------------------------------
-    %  Publisher mark (small "TK" ring) bottom-right corner
-    %--------------------------------------------------------------
-    \draw[GoldAccent, line width=1.4pt]
-      ([xshift=-2.0cm, yshift=2.5cm]current page.south east) circle [radius=0.50cm];
-    \node[anchor=center,
-          font=\sffamily\small\bfseries\color{GoldAccent}]
-      at ([xshift=-2.0cm, yshift=2.5cm]current page.south east) {TK};
-  }
-\end{tikzpicture}
-\endgroup
+% ── TITLE PAGE ────────────────────────────────────────────
+% Clean, minimal title page: centred title, subtitle, and author
+% on a plain background.
+\null
+\vskip 0.30\textheight
+\begin{center}
+  {\sffamily\bfseries\fontsize{32pt}{36pt}\selectfont\color{NavyPrimary}%
+    CIE A Level Economics\par}
+  \vspace{1.0em}
+  {\sffamily\normalsize\color{MidBlue}%
+    A clear, illustrated companion for the Cambridge International Examination\par}
+  \vspace{2.2em}
+  {\sffamily\large\color{NavyPrimary}Taksh Kothari\par}
+\end{center}
+\vfill
 \newpage
+
+% ── COPYRIGHT / LICENCE PAGE ──────────────────────────────
+\pagestyle{empty}
+\null
+\vfill
+\begin{center}
+  {\sffamily\color{SubtleGray}
+    \textcopyright\ \the\year\ Taksh Kothari.\par
+    \vspace{1.2em}
+    {\color{TextDark}\bfseries This work is licensed under a\\
+    Creative Commons Attribution--NonCommercial 4.0 International\\
+    (CC\,BY-NC\,4.0) License.}\par
+    \vspace{1.2em}
+    You are free to \textbf{share} (copy and redistribute the material in any
+    medium or format) and to \textbf{adapt} (remix, transform, and build upon
+    the material), under the following terms:\par
+    \vspace{0.8em}
+    \textbf{Attribution} --- You must give appropriate credit, provide a link
+    to the license, and indicate if changes were made.\par
+    \vspace{0.4em}
+    \textbf{NonCommercial} --- You may not use the material for commercial
+    purposes.\par
+    \vspace{1.2em}
+    Full licence terms: \url{https://creativecommons.org/licenses/by-nc/4.0/}}
+\end{center}
+\vfill
+\clearpage
 
 % ── INSIDE TITLE ──────────────────────────────────────────
 \pagestyle{empty}
